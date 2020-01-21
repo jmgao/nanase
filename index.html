@@ -1,0 +1,91 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <title>Nanase unblockable</title>
+    <meta charset="utf-8">
+    <style>
+        .container {
+            position: relative;
+            height: 720px;
+        }
+
+        .img {
+            position: absolute;
+            width: auto;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .img img {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="img">
+            <img width="1280" height="720" id="66b">
+        </div>
+        <div class="img">
+            <img width="1280" height="720" id="66c" style="opacity:0.5">
+        </div>
+    </div>
+    <div>
+        Frame: <span id="frame">0</span>
+    </div>
+</body>
+
+<script type="application/javascript">
+    var opacity = 0.5;
+    var frame = 25;
+    var frameOffset = frame;
+    const maxFrame = 55;
+
+    function update() {
+        var frameImg = frame.toString().padStart(3, "0") + ".png";
+        var b = document.getElementById("66b");
+        var c = document.getElementById("66c")
+        b.src = "66b/" + frameImg;
+        c.src = "66c/" + frameImg;
+        c.style = "opacity:" + opacity;
+        document.getElementById("frame").innerHTML = (frame - frameOffset).toString();
+    }
+
+    function clamp(x, min, max) {
+        if (x > max) {
+            return max;
+        }
+        if (x < min) {
+            return min;
+        }
+        return x;
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("keyup", function (e) {
+            const left = 37;
+            const up = 38;
+            const right = 39;
+            const down = 40;
+
+            console.log("code = " + e.keyCode);
+            if (e.keyCode == left) {
+                console.log("left");
+                frame = clamp(frame - 1, 0, 55);
+            } else if (e.keyCode == right) {
+                frame = clamp(frame + 1, 0, 55);
+            } else if (e.keyCode == up) {
+                opacity = clamp(opacity + 0.25, 0.0, 1.0);
+            } else if (e.keyCode == down) {
+                opacity = clamp(opacity - 0.25, 0.0, 1.0);
+            } else {
+                return;
+            }
+            update();
+        });
+        update();
+    });
+</script>
+</html>
